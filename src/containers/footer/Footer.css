@@ -1,0 +1,17 @@
+.footer-container {
+  padding: 3rem 4rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-container p {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 3rem 2rem;
+  }
+}

@@ -1,0 +1,99 @@
+.video-section {
+  padding: 8rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.video-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+.video-placeholder {
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 30% 40%,
+      rgba(6, 182, 212, 0.2),
+      transparent 50%
+    ),
+    radial-gradient(circle at 70% 60%, rgba(139, 92, 246, 0.2), transparent 50%);
+}
+
+.video-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--cyan),
+    var(--purple),
+    var(--pink),
+    var(--orange)
+  );
+  background-size: 300% 300%;
+  animation: glowRotate 4s linear infinite;
+  filter: blur(20px);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.play-circle {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s;
+  position: relative;
+  z-index: 1;
+}
+
+.play-circle::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: pingCircle 2s infinite;
+}
+
+.play-circle:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.play-circle::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 22px solid #fff;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+  .video-section {
+    padding: 8rem 2rem;
+  }
+}

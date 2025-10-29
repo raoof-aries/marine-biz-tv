@@ -1,7 +1,12 @@
+import React from "react";
 import "./Footer.css";
 
 const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <footer className="footer-container">
+      <p>© 2025 Marine BizTV - Aries e-Solutions. All rights reserved.</p>
+    </footer>
+  );
 };
 
 export default Footer;
