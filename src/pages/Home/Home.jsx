@@ -17,8 +17,8 @@ const Home = () => {
 
       <HeroSection />
       <AboutSection />
-      {/* <FeaturedContentSection /> */}
-      {/* <ContactSection /> */}
+      <FeaturedContentSection />
+      <ContactSection />
     </>
   );
 };
