@@ -1,6 +1,6 @@
 /* Stats Section */
 .stats {
-  padding: 4rem 4rem;
+  padding: 2rem;
   position: relative;
   z-index: 1;
 }
@@ -63,7 +63,7 @@
 
 /* Features */
 .features {
-  padding: 8rem 4rem;
+  padding: 4rem;
   position: relative;
   z-index: 1;
 }

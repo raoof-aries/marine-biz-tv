@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router";
 // Main Pages
 
 const HomePage = lazy(() => import("../pages/Home/Home.jsx"));
+const LiveTv = lazy(() => import("../pages/LiveTV/LiveTv.jsx"));
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
     // >
     <Routes>
       <Route path="/" element={<HomePage />} exact />
+      <Route path="/live" element={<LiveTv />} exact />
 
       {/* Unknown Routes */}
 

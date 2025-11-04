@@ -1,12 +1,22 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeroSection.css";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Check if it's a route (starts with /) or an anchor link (starts with #)
+    if (href.startsWith("/")) {
+      // Navigate to the route
+      navigate(href);
+    } else {
+      // Scroll to anchor on current page
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   };
 
@@ -35,9 +45,9 @@ const HeroSection = () => {
         </p>
         <div className="hero-buttons">
           <a
-            href="#live"
+            href="/live"
             className="btn btn-primary"
-            onClick={(e) => handleNavClick(e, "#services")}
+            onClick={(e) => handleNavClick(e, "/live")}
           >
             ▶ Watch Live
           </a>
