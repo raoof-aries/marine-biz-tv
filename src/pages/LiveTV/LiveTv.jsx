@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import "./LiveTV.css";
+import "./LiveTv.css";
 
-const LiveTV = () => {
+const LiveTv = () => {
   const [currentFilter, setCurrentFilter] = useState("all");
   const [modalData, setModalData] = useState({
     isOpen: false,
@@ -252,4 +252,4 @@ const LiveTV = () => {
   );
 };
 
-export default LiveTV;
+export default LiveTv;
