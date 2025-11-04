@@ -1,12 +1,3 @@
-/* LiveTV.css */
-
-/* Reset & Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .live-tv-wrapper {
   font-family: "Space Grotesk", -apple-system, sans-serif;
   background: #000;
