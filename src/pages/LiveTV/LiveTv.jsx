@@ -169,7 +169,7 @@ const LiveTv = () => {
         {/* <div className="live-tv-transition-element"></div> */}
 
         {/* Archives Section */}
-        <section className="live-tv-archives-section">
+        <section className="live-tv-archives-section" id="videoArchives">
           <div className="live-tv-archives-header">
             <h2 className="live-tv-archives-title">Video Archives</h2>
             <div className="live-tv-category-filter">
