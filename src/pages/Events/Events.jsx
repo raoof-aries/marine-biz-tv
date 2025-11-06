@@ -296,7 +296,7 @@ const Events = () => {
 
                   <p className="event-card-description">{event.description}</p>
 
-                  <div className="event-card-actions">
+                  {/* <div className="event-card-actions">
                     <a href="#" className="event-learn-more">
                       Learn More
                       <svg
@@ -317,7 +317,7 @@ const Events = () => {
                     <button className="event-register-btn btn btn-primary">
                       Register Now
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </article>
             ))}
