@@ -1,5 +1,6 @@
-import { lazy } from "react";
+import React, { lazy } from "react";
 import { Routes, Route } from "react-router";
+import { Modal, Loader } from "../components";
 
 // Main Pages
 
@@ -10,24 +11,24 @@ const Events = lazy(() => import("../pages/Events/Events.jsx"));
 
 const AppRoutes = () => {
   return (
-    // <React.Suspense
-    //   fallback={
-    //     <Modal>
-    //       <Loader />
-    //     </Modal>
-    //   }
-    // >
-    <Routes>
-      <Route path="/" element={<HomePage />} exact />
-      <Route path="/live" element={<LiveTv />} exact />
-      <Route path="/news" element={<News />} exact />
-      <Route path="/events" element={<Events />} exact />
+    <React.Suspense
+      fallback={
+        <Modal>
+          <Loader />
+        </Modal>
+      }
+    >
+      <Routes>
+        <Route path="/" element={<HomePage />} exact />
+        <Route path="/live" element={<LiveTv />} exact />
+        <Route path="/news" element={<News />} exact />
+        <Route path="/events" element={<Events />} exact />
 
-      {/* Unknown Routes */}
+        {/* Unknown Routes */}
 
-      {/* <Route path="*" element={<PageNotFoundEl />} /> */}
-    </Routes>
-    // </React.Suspense>
+        {/* <Route path="*" element={<PageNotFoundEl />} /> */}
+      </Routes>
+    </React.Suspense>
   );
 };
 

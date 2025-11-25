@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Modal, Loader } from "../../components";
 import "./LiveTv.css";
 
 const LiveTv = () => {
@@ -11,99 +12,75 @@ const LiveTv = () => {
   const [liveVideoSrc, setLiveVideoSrc] = useState(
     "https://iframes.5centscdn.in/5centscdn/hls/skin1/kygt6dlsg6zh7rmq/aHR0cHM6Ly80M3dyempucHFveGUtaGxzLWxpdmUud21uY2RuLm5ldC9HQUlQL1RWL3BsYXlsaXN0Lm0zdTg=?showcv=true&title=GAIP/TV&autoplay=1&muted=1"
   );
+  const [videoArchives, setVideoArchives] = useState([]);
+  const [categories, setCategories] = useState({ all: "All Videos" });
+  const [loading, setLoading] = useState(true);
 
-  const videoArchives = [
-    {
-      id: 1,
-      title: "GAIP Live: Tech Talk Wednesday",
-      description:
-        "Weekly discussion on emerging technologies, AI developments, and industry insights with special guests.",
-      duration: "1:24:17",
-      category: "tech-talk",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=1",
-    },
-    {
-      id: 2,
-      title: "Morning Show: Community Updates",
-      description:
-        "Latest updates from the GAIP community, project showcases, and upcoming events discussion.",
-      duration: "45:32",
-      category: "community",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=2",
-    },
-    {
-      id: 3,
-      title: "Live Coding Session: React Development",
-      description:
-        "Building a real-time dashboard with React, WebSockets, and modern development practices.",
-      duration: "2:15:48",
-      category: "coding",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: null,
-    },
-    {
-      id: 4,
-      title: "GAIP News Tonight",
-      description:
-        "Evening news roundup covering tech industry updates, market analysis, and community highlights.",
-      duration: "38:29",
-      category: "news",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=4",
-    },
-    {
-      id: 5,
-      title: "Weekend Workshop: Digital Marketing",
-      description:
-        "Comprehensive guide to digital marketing strategies, SEO best practices, and social media optimization.",
-      duration: "1:52:15",
-      category: "workshop",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=5",
-    },
-    {
-      id: 6,
-      title: "Friday Q&A: Ask the Experts",
-      description:
-        "Open Q&A session where community members get answers from industry experts and GAIP team members.",
-      duration: "1:07:43",
-      category: "community",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: null,
-    },
-    {
-      id: 7,
-      title: "Special Event: Product Launch",
-      description:
-        "Exclusive launch event showcasing new GAIP features, roadmap updates, and interactive demonstrations.",
-      duration: "1:33:21",
-      category: "events",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=7",
-    },
-    {
-      id: 8,
-      title: "Tutorial Tuesday: Web Development",
-      description:
-        "Step-by-step tutorial on building modern web applications with the latest frameworks and tools.",
-      duration: "1:18:56",
-      category: "coding",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnailUrl: "https://picsum.photos/320/180?random=8",
-    },
-  ];
+  // Fetch video archives and categories
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-  const categories = {
-    all: "All Videos",
-    "tech-talk": "Tech Talk",
-    community: "Community",
-    coding: "Coding",
-    news: "News",
-    workshop: "Workshop",
-    events: "Events",
-  };
+        // Fetch both APIs in parallel
+        const [archivesRes, categoriesRes] = await Promise.all([
+          fetch(
+            "https://blacksand.co.in/admin/api/services.php?action=videoarchives"
+          ),
+          fetch(
+            "https://blacksand.co.in/admin/api/services.php?action=videoArchivesCategories"
+          ),
+        ]);
+
+        const archivesData = await archivesRes.json();
+        const categoriesData = await categoriesRes.json();
+
+        // Process categories
+        if (categoriesData.status === "success") {
+          const categoryMap = { all: "All Videos" };
+          categoriesData.data.forEach((cat) => {
+            categoryMap[cat.id] = cat.category_name;
+          });
+          setCategories(categoryMap);
+        }
+
+        // Process video archives
+        if (archivesData.status === "success") {
+          const processedArchives = archivesData.data.map((video) => {
+            // Convert YouTube URL to embed format
+            let embedUrl = video.video_url;
+            if (video.video_url.includes("youtu.be")) {
+              const videoId = video.video_url.split("/").pop();
+              embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (video.video_url.includes("youtube.com/watch")) {
+              const videoId = new URL(video.video_url).searchParams.get("v");
+              embedUrl = `https://www.youtube.com/embed/${videoId}`;
+            } else if (video.video_url.includes("vimeo.com")) {
+              const videoId = video.video_url.split("/").pop();
+              embedUrl = `https://player.vimeo.com/video/${videoId}`;
+            }
+
+            return {
+              id: video.id,
+              title: video.video_title,
+              description: video.video_description,
+              duration: video.video_duration || "N/A",
+              category: video.video_type,
+              videoUrl: embedUrl,
+              thumbnailUrl: video.thumbnail_url,
+            };
+          });
+          setVideoArchives(processedArchives);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const openModal = (videoUrl, title) => {
     setLiveVideoSrc("");
@@ -132,6 +109,14 @@ const LiveTv = () => {
       ? videoArchives
       : videoArchives.filter((archive) => archive.category === currentFilter);
 
+  if (loading) {
+    return (
+      <Modal>
+        <Loader />
+      </Modal>
+    );
+  }
+
   return (
     <div className="live-tv-wrapper">
       {/* Animated Background */}
@@ -144,11 +129,6 @@ const LiveTv = () => {
       <div className="live-tv-main-wrapper">
         {/* Video Section */}
         <section className="live-tv-video-section">
-          {/* <a className="live-tv-back-button" href="https://gaip.co/">
-            <span>←</span>
-            <p>Back to Home</p>
-          </a> */}
-          {/* <h1 className="live-tv-page-title">GAIP Live TV</h1> */}
           <div className="live-tv-video-container">
             {liveVideoSrc && (
               <iframe
@@ -164,9 +144,6 @@ const LiveTv = () => {
             <span>↓</span>
           </div>
         </section>
-
-        {/* Transition Element */}
-        {/* <div className="live-tv-transition-element"></div> */}
 
         {/* Archives Section */}
         <section className="live-tv-archives-section" id="videoArchives">
@@ -188,38 +165,51 @@ const LiveTv = () => {
           </div>
 
           <div className="live-tv-archives-grid">
-            {filteredArchives.map((archive) => (
-              <div
-                key={archive.id}
-                className={`live-tv-archive-card visible`}
-                onClick={() => openModal(archive.videoUrl, archive.title)}
-              >
+            {filteredArchives.length > 0 ? (
+              filteredArchives.map((archive) => (
                 <div
-                  className={`live-tv-card-thumbnail ${
-                    !archive.thumbnailUrl ? "no-image" : ""
-                  }`}
-                  style={
-                    archive.thumbnailUrl
-                      ? { backgroundImage: `url('${archive.thumbnailUrl}')` }
-                      : {}
-                  }
+                  key={archive.id}
+                  className="live-tv-archive-card visible"
+                  onClick={() => openModal(archive.videoUrl, archive.title)}
                 >
-                  {!archive.thumbnailUrl && (
-                    <span style={{ fontSize: "2rem" }}>🎥</span>
-                  )}
-                  <div className="live-tv-card-category">
-                    {categories[archive.category] || archive.category}
+                  <div
+                    className={`live-tv-card-thumbnail ${
+                      !archive.thumbnailUrl ? "no-image" : ""
+                    }`}
+                    style={
+                      archive.thumbnailUrl
+                        ? { backgroundImage: `url('${archive.thumbnailUrl}')` }
+                        : {}
+                    }
+                  >
+                    {!archive.thumbnailUrl && (
+                      <span style={{ fontSize: "2rem" }}>🎥</span>
+                    )}
+                    <div className="live-tv-card-category">
+                      {categories[archive.category] || "Uncategorized"}
+                    </div>
+                    <div className="live-tv-card-duration">
+                      {archive.duration}
+                    </div>
                   </div>
-                  <div className="live-tv-card-duration">
-                    {archive.duration}
-                  </div>
+                  <h3 className="live-tv-card-title">{archive.title}</h3>
+                  <p className="live-tv-card-description">
+                    {archive.description}
+                  </p>
                 </div>
-                <h3 className="live-tv-card-title">{archive.title}</h3>
-                <p className="live-tv-card-description">
-                  {archive.description}
-                </p>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  padding: "2rem",
+                  color: "rgba(255,255,255,0.5)",
+                }}
+              >
+                No videos found in this category.
+              </p>
+            )}
           </div>
         </section>
       </div>

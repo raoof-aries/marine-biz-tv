@@ -1,0 +1,132 @@
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Animated Background Orbs */
+.loader-container::before,
+.loader-container::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+}
+
+.loader-container::before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #06b6d4, transparent);
+  top: 20%;
+  left: 10%;
+  animation: float 15s infinite ease-in-out;
+}
+
+.loader-container::after {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #8b5cf6, transparent);
+  bottom: 20%;
+  right: 10%;
+  animation: float 20s infinite ease-in-out reverse;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(50px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-50px, 50px) scale(0.9);
+  }
+}
+
+.loader-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.spinner::before {
+  inset: 0;
+  border: 3px solid transparent;
+  border-top-color: #06b6d4;
+  border-right-color: #06b6d4;
+  animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.spinner::after {
+  inset: 8px;
+  border: 3px solid transparent;
+  border-bottom-color: #8b5cf6;
+  border-left-color: #8b5cf6;
+  animation: spin 1.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite reverse;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-text {
+  font-family: "Space Grotesk", -apple-system, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  background: linear-gradient(120deg, #fff 0%, #06b6d4 50%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: gradientShift 3s linear infinite, pulse 2s ease-in-out infinite;
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+@keyframes gradientShift {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
