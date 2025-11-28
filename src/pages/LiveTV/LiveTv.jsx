@@ -10,7 +10,7 @@ const LiveTv = () => {
     title: "",
   });
   const [liveVideoSrc, setLiveVideoSrc] = useState(
-    "https://iframes.5centscdn.in/5centscdn/hls/skin1/kygt6dlsg6zh7rmq/aHR0cHM6Ly80M3dyempucHFveGUtaGxzLWxpdmUud21uY2RuLm5ldC9HQUlQL1RWL3BsYXlsaXN0Lm0zdTg=?showcv=true&title=GAIP/TV&autoplay=1&muted=1"
+    "https://iframes.5centscdn.in/5centscdn/hls/skin1/4petrweaywvuwlxq/aHR0cHM6Ly80M3dyempucHFveGUtaGxzLWxpdmUud21uY2RuLm5ldC9tYXJpbmViaXp0dm1haW4vbWFyaW5lbWFpbi9wbGF5bGlzdC5tM3U4?showcv=true&title=marinebiztvmain/marinemain&autoplay=1&muted=1"
   );
   const [videoArchives, setVideoArchives] = useState([]);
   const [categories, setCategories] = useState({ all: "All Videos" });
