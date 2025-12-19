@@ -17,13 +17,13 @@ const News = () => {
 
         // Fetch news
         const newsResponse = await fetch(
-          "https://blacksand.co.in/admin/api/services.php?action=news"
+          "https://www.marinebiztv.com/admin/api/services.php?action=news"
         );
         const newsData = await newsResponse.json();
 
         // Fetch categories
         const categoriesResponse = await fetch(
-          "https://blacksand.co.in/admin/api/services.php?action=newsCategories"
+          "https://www.marinebiztv.com/admin/api/services.php?action=newsCategories"
         );
         const categoriesData = await categoriesResponse.json();
 

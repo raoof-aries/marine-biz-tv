@@ -17,13 +17,13 @@ const Events = () => {
 
         // Fetch events
         const eventsResponse = await fetch(
-          "https://blacksand.co.in/admin/api/services.php?action=events"
+          "https://www.marinebiztv.com/admin/api/services.php?action=events"
         );
         const eventsData = await eventsResponse.json();
 
         // Fetch categories
         const categoriesResponse = await fetch(
-          "https://blacksand.co.in/admin/api/services.php?action=event_categories"
+          "https://www.marinebiztv.com/admin/api/services.php?action=event_categories"
         );
         const categoriesData = await categoriesResponse.json();
 
